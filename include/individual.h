@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <time.h> 
 #include <iostream>
+#include <random>
+#include <algorithm>
 
 #define END "\e[0m"
 #define BLUE "\e[44m"
@@ -29,9 +31,9 @@ class Individual{
         */
         Individual(unsigned int n_genes);
 
-        /*  Create an individual based on parent_a and parent_b
+        /*  Create an individual with a given chromosome and the number of colours used
         */
-        Individual(Individual, Individual);
+        Individual(vector<unsigned int> chromosome, unsigned int N_colours_used);
 
         /*  Numer of differents colours used in this result
         */
@@ -53,7 +55,19 @@ class Individual{
         */
         unsigned int getFitness();
 
+        /*  It will mutate the individual
+        */ 
+        void mutate();
 
+    
+    
+
+        double getRandom(double start, double finish){
+            random_device rd;
+            mt19937 mt(rd());
+            uniform_real_distribution<double> dist(start, finish);
+        return dist(mt);
+        }
 
 
         

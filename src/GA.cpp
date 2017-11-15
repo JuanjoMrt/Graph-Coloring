@@ -8,12 +8,52 @@
 
         for(unsigned int i = 0; i < n_individuals; i++){
 
-            srand (time(NULL) + i+1);
             Individual a(n_genes);
             population.push_back(a);
         }
 
     };
+
+    vector<Individual> GA::FindBestIndividuals( unsigned int p){
+        
+        vector<Individual> best_individuals;
+
+        //pair< Fitness value, index in the population>
+        priority_queue< pair<unsigned int, int>> best_ind;
+
+        /*  To have the best n_best_individuals, we insert the elements
+            into a queue and then pop just what we need.
+            (It can be done more efficient, if we don't push the individuals
+            smaller than the last element of the queue but back() is not working
+            for some reason, I will improve this if I have time)
+        */
+
+        for (unsigned int i = 0; i < n_individuals; ++i) {
+    
+            best_ind.push(std::pair<unsigned int, int>(fitnessOfIndividual(i), i));
+        }
+        double percentage = (double)p/100;
+    
+
+        //Number of individuals that we will choose
+        int n_best_individuals = percentage*n_individuals;
+
+
+        /*  Here we pop the elements that we want
+        */
+        for (int i = 0; i < n_best_individuals; ++i) {
+            int ki = best_ind.top().second;
+
+            best_individuals.push_back(this->population[ki]);
+            
+            best_ind.pop();
+        }
+
+        population = best_individuals;
+        n_individuals = best_individuals.size();
+        return best_individuals;
+    }
+
 
     unsigned int GA::fitnessOfIndividual(unsigned int index){
         
@@ -33,9 +73,9 @@
                 }
                 
             }
-            if(fit == n_edges){
+            
                 fit += (n_genes - population[index].getNumOfColours());
-            }
+            
 
 
 
@@ -48,6 +88,7 @@
         for(unsigned int i = 0; i < n_individuals; i++){
             cout << endl;
             population[i].printChromosome();
+            cout << "Fitness: " << fitnessOfIndividual(i) ;
         }
 
 

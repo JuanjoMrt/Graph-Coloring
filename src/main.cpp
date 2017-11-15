@@ -3,6 +3,7 @@
 #include <vector>
 #include "GA.h"
 #include "individual.h"
+#include <random>
 
 
 
@@ -140,12 +141,20 @@ unsigned int n_graph;
     }
     graph_main.printGrahp();
     
+
+
    
-    //Individual in(graph_main.getNodes());
+    Individual in(graph_main.getNodes());
     
     //in.printChromosome();
+    //in.mutate();
+    //in.printChromosome();
 
-    int n_individuals = 9;
+    //cout << in.getRandom(0.0, )
+
+
+
+    int n_individuals = 10;
 
     GA GA_Solution(n_individuals, graph_main.getNodes(), graph_main.getEdges(), graph_main.getGraph());
 
@@ -153,6 +162,18 @@ unsigned int n_graph;
     
     cout << endl << "Fitness: " << GA_Solution.fitnessOfIndividual(3) << endl;
     cout << graph_main.getEdges() << endl;
+
+    vector<Individual> a = GA_Solution.FindBestIndividuals(30);
+
+    GA_Solution.printPopulation();
+
+    cout << endl << "Mutation" << endl ;
+    GA_Solution.mutateAll();
+    GA_Solution.printPopulation();
+
+
+
+    
 
 
 

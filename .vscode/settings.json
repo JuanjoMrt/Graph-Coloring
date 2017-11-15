@@ -2,5 +2,7 @@
     "files.associations": {
         "iostream": "cpp",
         "*.tcc": "cpp"
-    }
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "C_Cpp.errorSquiggles": "Enabled"
 }
