@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "GA.h"
+#include "individual.h"
 
 
 
@@ -8,6 +10,8 @@ using namespace std;
 
 #define END "\e[0m"
 #define BLUE "\e[44m"
+#define RED "\e[45m"
+#define GREEN "\e[42m"
 
 
 
@@ -39,7 +43,7 @@ public:
 
         /*Now we know the number of nodes, so
         we resize the graph to allocate all*/
-        graph.resize(n_nodes + 1);
+        graph.resize(n_nodes);
 
 
         /*Set the last node, we will use this variable to know 
@@ -52,8 +56,8 @@ public:
 
             /*Loading the values into variables*/
             plain_graph >> e >> node1 >> node2;
-            graph[node1].push_back(node2);
-            graph[node2].push_back(node1);
+            graph[node1 - 1].push_back(node2 - 1);
+            //graph[node2].push_back(node1);
 
         }
         plain_graph.close();
@@ -65,7 +69,7 @@ public:
             cout << "The graph is not loaded.";
         }
         else{
-            for (size_t i = 1; i < graph.size(); i++)
+            for (size_t i = 0; i < graph.size(); i++)
             { 
                 cout << endl << BLUE << "[" << i << "]" << END << "->";
                 for (size_t j = 0; j < graph[i].size(); j++)
@@ -76,6 +80,19 @@ public:
             cout << endl;
         }
     }
+
+
+    unsigned int getNodes(){
+        return this->n_nodes;
+    }
+    unsigned int getEdges(){
+        return this->n_edges;
+    }
+
+    vector<vector<unsigned int>> getGraph(){
+        return this->graph;
+    }
+
 
 
 };
@@ -121,8 +138,21 @@ unsigned int n_graph;
         }
 
     }
-    //graph_main.printGrahp();
+    graph_main.printGrahp();
     
+   
+    //Individual in(graph_main.getNodes());
+    
+    //in.printChromosome();
+
+    int n_individuals = 9;
+
+    GA GA_Solution(n_individuals, graph_main.getNodes(), graph_main.getEdges(), graph_main.getGraph());
+
+    GA_Solution.printPopulation();
+    
+    cout << endl << "Fitness: " << GA_Solution.fitnessOfIndividual(3) << endl;
+    cout << graph_main.getEdges() << endl;
 
 
 

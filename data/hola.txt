@@ -1,2 +1,7 @@
-aaaaaaaaa bbbbbbbbbb
-c dddd
+c Test graph
+p edge 11 20
+e
+e
+e
+e
+e
