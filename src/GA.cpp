@@ -14,7 +14,20 @@
 
     };
 
-    vector<Individual> GA::FindBestIndividuals( unsigned int p){
+    GA::GA(unsigned int n_genes, unsigned int n_edges, vector<vector<unsigned int>> main_graph){
+        this->n_genes = n_genes;
+        this->n_edges = n_edges;
+        this->main_graph = main_graph;
+        this->n_individuals = 0;
+    }
+
+
+    void GA::addIndividual(Individual ind_new){
+        this->population.push_back(ind_new);
+        n_individuals++;
+    };
+
+    vector<Individual> GA::FindBestIndividuals( double percentage){
         
         vector<Individual> best_individuals;
 
@@ -32,8 +45,6 @@
     
             best_ind.push(std::pair<unsigned int, int>(fitnessOfIndividual(i), i));
         }
-        double percentage = (double)p/100;
-    
 
         //Number of individuals that we will choose
         int n_best_individuals = percentage*n_individuals;
@@ -49,9 +60,66 @@
             best_ind.pop();
         }
 
-        population = best_individuals;
-        n_individuals = best_individuals.size();
         return best_individuals;
+    };
+
+    vector<Individual> GA::Reproduce(vector<Individual> population, unsigned int new_ind){
+        vector<Individual> new_population;
+        unsigned int parent_1, parent_2;
+        Individual son(n_genes);
+        unsigned int n_individuals = population.size();
+        
+
+        for(unsigned int i = 0; i < new_ind;i++){
+            parent_1 = getRandom(0, n_individuals);
+        
+            //This way we won't have parent_1 == parent_2
+            parent_2 = (parent_1 + (int)getRandom(1, n_individuals - 1))  % n_individuals;
+            //cout << "parent 1: " << parent_1 << ", parent 2: " << parent_2 << endl;
+
+            son = population[parent_1].reproduce(population[parent_2]);
+            new_population.push_back( son );
+
+        }
+        return new_population;
+    }
+
+    vector<Individual> GA::Mutate(vector<Individual> population, unsigned int new_ind){
+        vector<Individual> new_population;
+        unsigned int random_idx;
+
+        for(unsigned int i = 0; i < new_ind; i++){
+            random_idx = getRandom(0, population.size());
+
+            Individual new_individual = population[random_idx];
+            new_individual.mutate();
+            new_population.push_back(new_individual);
+        }
+        return new_population;
+    }
+
+
+    void GA::CreateNewPopulation(double p_best, double p_reproduce, double p_mutations){
+        double p_total = p_best + p_reproduce + p_mutations;
+        
+        p_best = p_best / p_total;
+        double n_reproduce = n_individuals * (p_reproduce / p_total);
+        double n_mutations = n_individuals * (p_mutations / p_total);
+        vector<Individual> new_population;
+        
+        new_population = FindBestIndividuals(p_best);
+        
+        vector<Individual> reproduce_v = Reproduce(new_population, n_reproduce);
+        vector<Individual> mutate_v = Mutate(new_population, n_mutations);
+        
+        //Insert the reproduce and mutate vector into the new population.
+        
+        new_population.insert(end(new_population), begin(reproduce_v), end(reproduce_v));
+        
+        new_population.insert(end(new_population), begin(mutate_v), end(mutate_v));
+
+
+        this->population = new_population;
     }
 
 
@@ -65,15 +133,21 @@
         else{
             
             for(unsigned int i = 0; i < n_genes; i++){
+                //cout << endl <<"i=" << i << "-  ";
                 for(unsigned int j = 0; j < main_graph[i].size(); j++){
                     unsigned int cmp_number = population[index].at( main_graph[i][j] );
+                    //cout << population[index].at(i)<<","<< cmp_number << " " ;
                     if(population[index].at(i) != cmp_number){
                         fit++;
+                    //    cout << "1 ";
                     }
+                    /*else{
+                        cout << "0 ";
+                    }*/
                 }
-                
+
             }
-            
+            if(fit == n_edges)
                 fit += (n_genes - population[index].getNumOfColours());
             
 
@@ -92,4 +166,14 @@
         }
 
 
+    };
+
+    double GA::AvgNColour(){
+        double avg = 0;
+        for(unsigned int i = 0; i < population.size(); i++){
+            avg += population[i].getNumOfColours();
+        }
+        avg = avg / population.size();
+
+        return avg;
     };

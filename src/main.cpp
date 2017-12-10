@@ -1,8 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "GA.h"
-#include "individual.h"
+
 #include <random>
 
 
@@ -14,6 +13,11 @@ using namespace std;
 #define RED "\e[45m"
 #define GREEN "\e[42m"
 
+
+
+#include "GA.h"
+#include "SA.h"
+#include "individual.h"
 
 
 class Graph{
@@ -99,10 +103,13 @@ public:
 };
 
 
+
+
+
 int main(int argc, char *argv[]){
 
 /*Here we will store the name of our graph data */
-vector< string > data = {"myciel3.col", "queen5_5.col", "hola"};
+vector< string > data = {"myciel3.col", "myciel4.col", "myciel5.col"};
 Graph graph_main;
 
 unsigned int n_graph;
@@ -143,35 +150,32 @@ unsigned int n_graph;
     
 
 
-   
-    Individual in(graph_main.getNodes());
-    
-    //in.printChromosome();
-    //in.mutate();
-    //in.printChromosome();
+//Add a switch to change between different algorithms
+/*GA
 
-    //cout << in.getRandom(0.0, )
-
-
-
-    int n_individuals = 10;
+    int n_iterations = 5000;
+    int n_individuals = 30;
 
     GA GA_Solution(n_individuals, graph_main.getNodes(), graph_main.getEdges(), graph_main.getGraph());
 
+    //GA_Solution.printPopulation();
+    cout << endl;
+    for(int j= 0; j < n_iterations; j++){
+        cout << "NEW POPULATION: " << j << endl;
+        //cout << "NEW POPULATION: " << endl;
+        GA_Solution.CreateNewPopulation( 40.0, 40.0, 20.0);
+        cout << "\tAVG Colour: " << GA_Solution.AvgNColour() << endl;;
+    }
+        
     GA_Solution.printPopulation();
+*/
+
+int n_iterations_SA = 100;
+double initial_temp = 80.0;
+
+SA SA_Solution( initial_temp, graph_main.getNodes(), graph_main.getGraph());
+
     
-    cout << endl << "Fitness: " << GA_Solution.fitnessOfIndividual(3) << endl;
-    cout << graph_main.getEdges() << endl;
-
-    vector<Individual> a = GA_Solution.FindBestIndividuals(30);
-
-    GA_Solution.printPopulation();
-
-    cout << endl << "Mutation" << endl ;
-    GA_Solution.mutateAll();
-    GA_Solution.printPopulation();
-
-
 
     
 

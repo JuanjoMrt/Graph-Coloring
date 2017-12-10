@@ -19,41 +19,52 @@ class GA{
 
     public: 
 
-        /*  It will inicializate the population with a n_individuals number of individuals
+        /*  It will initialize the population with a n_individuals number of individuals
             All individuals will be intilized with random values
             n_genes is the number of nodes in the graph
         */
         GA(unsigned int n_individuals, unsigned int n_genes, unsigned int n_edges, vector<vector<unsigned int>> main_graph);
 
+        /*  Initialize a GA without a population
+        */
+        GA(unsigned int n_genes, unsigned int n_edges, vector<vector<unsigned int>> main_graph);
+
+        /*  Add a new individual to the population
+            ind_new: New individual
+        */
+        void addIndividual(Individual ind_new);
+
         /*  It will find the bests Individuals of the current population
             Percentage of Indiviuals that will return:
-                From 0% to 100%
+                From 0 to 1
             return: Bests p% Individuals
         */
-        vector<Individual> FindBestIndividuals( unsigned int p);
+        vector<Individual> FindBestIndividuals( double percentage);
 
-        /*  It will use a previous Individual and mutate it to create
-            a new one.
-            index: The index of the previous one in population
-            return: The new Individual
-        */
-        Individual Mutation(unsigned int index);
+        /*  Will generate a new population based on a previous one, using the reproduce method
+            and the number of individuals that we want
+            population: previous population
+            new_ind: numbwe of individuals in the new population
 
-        /*  Will create a new Individual based on his parents
-            idx_X: Index of both parents
-            p: Percentage used from the parent_1 
-                (1-p will be the percentage used from parent_2)
-            return: The new individual
+            return: the new population
         */
-        Individual Create(unsigned int idx_parent_1, unsigned int idx_parent_2);
+        vector<Individual> Reproduce(vector<Individual> population, unsigned int new_ind);
 
-        /*  With "FindBestIndividuals" will find the best individuals of the current population
-            and create a new population
-                1. A percentage will be mutations.
-                2. A percentage will be created with 2 parents.
-                3. A percentage will remain from the previous population.
+        /*  Will generate a new population based on a previous one, using the mutate method
+            and the number of individuals that we want
+            population: previous population
+            new_ind: numbwe of individuals in the new population
+
+            return: the new population
         */
-        void CreateNewPopulation(int randomness);
+        vector<Individual> Mutate(vector<Individual> population, unsigned int new_ind);
+
+        /*  It will create a new population
+                p_best: A percentage will remain from the previous population. (Best Individuals)
+                p_reproduce: A percentage will be created with 2 parents.
+                p_mutatuions: A percentage will be mutations. 
+        */
+        void CreateNewPopulation(double p_best, double p_reproduce, double p_mutations);
 
         /*  Method that will return a bool if there was a problem running the Genetic Algorithm
             It will write in best_individual, the best result it could find
@@ -77,13 +88,22 @@ class GA{
         */
         void printPopulation();
 
+        /*Average of colour used by the current population
+        */
+        double AvgNColour();
+
         void mutateAll(){
             for (unsigned int i = 0; i < n_individuals; i++){
                 population[i].mutate();
             }
         }
 
-    
+        double getRandom(double start, double finish){
+            random_device rd;
+            mt19937 mt(rd());
+            uniform_real_distribution<double> dist(start, finish);
+        return dist(mt);
+        }
 
 
 
