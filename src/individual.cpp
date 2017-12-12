@@ -91,6 +91,10 @@
         return new_ind;
     };
 
+    void Individual::insertColor(int p, int c){
+        chromosome[p] = c;
+    };
+
 
 
 

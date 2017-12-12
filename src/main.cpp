@@ -170,12 +170,17 @@ unsigned int n_graph;
     GA_Solution.printPopulation();
 */
 
-int n_iterations_SA = 100;
-double initial_temp = 80.0;
+    int n_iterations_SA = 1000;
+    double initial_temp = 1.0;
+    double min_temp = 0.175;
+    //double min_temp = 0.1;
 
-SA SA_Solution( initial_temp, graph_main.getNodes(), graph_main.getGraph());
+    SA SA_solution(initial_temp,graph_main.getNodes(),graph_main.getEdges() ,graph_main.getGraph() );
+    SA_solution.MainLoop(n_iterations_SA, min_temp);
+    Individual solution = SA_solution.GetBestState();
+    cout << "Best solution: " << endl;
+    solution.printChromosome();
 
-    
 
     
 

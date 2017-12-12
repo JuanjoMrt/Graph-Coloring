@@ -34,7 +34,7 @@ class Individual{
     public:
 
         Individual(){};
-        
+
         /*  Initialize a certain individual with random values, 
             and n_genes number of genes
         */
@@ -78,7 +78,10 @@ class Individual{
         */
         Individual reproduce(Individual parent_2);
 
-
+        /*  Insert a color c 
+            in a certain position p
+        */
+        void insertColor(int p, int c); 
 
         double getRandom(double start, double finish){
             random_device rd;
