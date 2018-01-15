@@ -12,13 +12,14 @@ class SA{
         Individual current_solution;
         double  temperature,
                 temperature0,
-                alpha;
+                alpha = 0.02;
         unsigned int    n_nodes, 
                         n_edges;
         int coolMode;
         vector<vector<unsigned int>> main_graph;
 
     public:
+
         SA(double initial_temperature,unsigned int n_nodes,unsigned int n_edges ,vector<vector<unsigned int>> main_graph);
 
         //
@@ -52,6 +53,17 @@ class SA{
         */
         void MainLoop(unsigned int n_iterations, double min_temp);
 
+
+        /*  It will return an int with the value of the fitness of the Individual
+            This value is calcuflated:
+                1. Every time a edge is good (both nodes have different colours)
+                    it will add 1 to the variable, if the node is not correct wilk add 0.
+
+                2. If all the edges are correct (fitnes = N_edges) it will add  
+                    N-N_colours_used to the value.
+            
+            Return: Fitness of a specific infividual
+        */
         unsigned int CalculateFitness(Individual &ind);
 
 

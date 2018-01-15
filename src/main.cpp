@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <time.h>
 
 #include <random>
 
@@ -17,6 +18,7 @@ using namespace std;
 
 #include "GA.h"
 #include "SA.h"
+#include "Tabu.h"
 #include "individual.h"
 
 
@@ -147,36 +149,76 @@ unsigned int n_graph;
 
     }
     graph_main.printGrahp();
+
+
+    struct timespec t_before, t_after;
+    long total_time = 0;
+
     
 
 
 //Add a switch to change between different algorithms
-/*GA
+//GA
 
-    int n_iterations = 5000;
-    int n_individuals = 30;
+
+
+    int n_iterations = 100000;
+    int n_individuals = 20;
+    bool cor_color = false;
+    int iterations_GA = 0;
+
+    vector<vector<unsigned int>> colors_per_individual;
+    colors_per_individual.resize(n_individuals); 
 
     GA GA_Solution(n_individuals, graph_main.getNodes(), graph_main.getEdges(), graph_main.getGraph());
 
     //GA_Solution.printPopulation();
     cout << endl;
-    for(int j= 0; j < n_iterations; j++){
-        cout << "NEW POPULATION: " << j << endl;
+    for(int j= 0; j < n_iterations && !cor_color; j++){
+        //cout << "NEW POPULATION: " << j << endl;
         //cout << "NEW POPULATION: " << endl;
         GA_Solution.CreateNewPopulation( 40.0, 40.0, 20.0);
-        cout << "\tAVG Colour: " << GA_Solution.AvgNColour() << endl;;
+        if(GA_Solution.CorrectColor(5)){
+            iterations_GA = j;
+            cor_color = true;
+        }
+        //GA_Solution.ColorsPerIndividual(colors_per_individual);
+
+
+
     }
         
-    GA_Solution.printPopulation();
-*/
+    //GA_Solution.printPopulation();
 
-    int n_iterations_SA = 1000;
+
+    clock_gettime(CLOCK_MONOTONIC, &t_after);
+    total_time = t_after.tv_nsec - t_before.tv_nsec;
+    
+
+    GA_Solution.printPopulation();
+    cout << endl <<  "GA nsec: " << total_time << endl;
+    cout << endl << "it GA: " << iterations_GA << endl;
+
+
+
+
+
+//SA
+/*
+
+
+
+    int n_iterations_SA = 1000000;
     double initial_temp = 1.0;
-    double min_temp = 0.175;
+    double min_temp = 0.11;
     //double min_temp = 0.1;
 
     SA SA_solution(initial_temp,graph_main.getNodes(),graph_main.getEdges() ,graph_main.getGraph() );
     SA_solution.MainLoop(n_iterations_SA, min_temp);
+
+
+
+
     Individual solution = SA_solution.GetBestState();
     cout << "Best solution: " << endl;
     solution.printChromosome();
@@ -184,6 +226,25 @@ unsigned int n_graph;
 
     
 
+*/
 
 
+// Tabu
+/*
+    clock_gettime(CLOCK_MONOTONIC, &t_before);
+
+    unsigned int n_iterations_tabu = 100000000;
+    unsigned int neighborhood_size = 4;
+
+
+    Tabu Tabu_solution(neighborhood_size, graph_main.getNodes(),graph_main.getEdges() ,graph_main.getGraph() );
+    Tabu_solution.MainLoop(n_iterations_tabu);
+
+    clock_gettime(CLOCK_MONOTONIC, &t_after);
+    total_time = t_after.tv_nsec - t_before.tv_nsec;
+
+    cout << endl <<  "GA nsec: " << total_time << endl;
+
+*/
 }
+

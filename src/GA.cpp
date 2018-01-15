@@ -151,8 +151,6 @@
                 fit += (n_genes - population[index].getNumOfColours());
             
 
-
-
             population[index].setFitness(fit);
         }
     return fit;
@@ -168,12 +166,17 @@
 
     };
 
-    double GA::AvgNColour(){
-        double avg = 0;
-        for(unsigned int i = 0; i < population.size(); i++){
-            avg += population[i].getNumOfColours();
-        }
-        avg = avg / population.size();
+    bool GA::CorrectColor(unsigned int n_colors){
+        int avg = 0;
+        bool finish = false;
 
-        return avg;
+        for(unsigned int i = 0; i < population.size() && !finish; i++){
+            if(population[i].getNumOfColours() == n_colors){
+                avg++;
+                if(avg == 16)
+                    finish = true;
+            }
+        }
+
+        return finish;
     };

@@ -88,9 +88,9 @@ class GA{
         */
         void printPopulation();
 
-        /*Average of colour used by the current population
+        /*
         */
-        double AvgNColour();
+        bool CorrectColor(unsigned int n_colors);
 
         void mutateAll(){
             for (unsigned int i = 0; i < n_individuals; i++){
@@ -104,6 +104,18 @@ class GA{
             uniform_real_distribution<double> dist(start, finish);
         return dist(mt);
         }
+
+
+
+        void ColorsPerIndividual(vector<vector<unsigned int>> &old_colors){
+
+            for(unsigned int i = 0; i < n_individuals; i++){
+                old_colors[i].push_back(population[i].getNumOfColours());
+            }
+        };
+
+
+
 
 
 

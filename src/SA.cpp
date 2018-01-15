@@ -26,7 +26,7 @@ SA::SA(double initial_temperature,int coolMode, int alpha,unsigned int n_nodes,u
     Individual new_individual(n_nodes);
     this->best_solution = new_individual;
     this->current_solution = new_individual;
-}
+};
 
 Individual SA::GetBestState(){
     return this->best_solution;
@@ -114,13 +114,15 @@ void SA::cool(int k){
             temperature = temperature0*(1/(log(k+2)));
         break;
     }
-}
+};
 
 void SA::MainLoop(unsigned int n_iterations, double min_temp){
-    for(unsigned int i = 0; i < n_iterations;i++){
-        cout << "\n\nIt number: " << i << endl;
-        current_solution.printChromosome();
-        cout << "FIT: " << current_solution.getFitness() << endl;
+    int correct = 0;
+    bool correct_color = false;
+    for(unsigned int i = 0; i < n_iterations && !correct_color;i++){
+        //cout << "\n\nIt number: " << i << endl;
+        //current_solution.printChromosome();
+        //cout << "FIT: " << current_solution.getFitness() << endl;
         this->NextNeighbor();
         this->cool(i);
 
@@ -128,12 +130,23 @@ void SA::MainLoop(unsigned int n_iterations, double min_temp){
             break;
         }
         else{
-            cout << "Temp: " << temperature << endl;
+            //cout << "Temp: " << temperature << endl;
         }
             
         
         if(current_solution.getFitness() > best_solution.getFitness())
             best_solution = current_solution;
+
+
+
+        if(current_solution.getNumOfColours() == 5)
+            correct++;
+        if(correct == 10){
+            correct_color = true;
+            cout << endl << endl;
+            cout << "IT: " << i << endl;
+        }
+            
         
 
     }
