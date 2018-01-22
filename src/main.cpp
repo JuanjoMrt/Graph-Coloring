@@ -231,6 +231,18 @@ unsigned int n_graph;
             solution.printChromosome();            
             break;
         }
+        case 3:{
+            //Tabu Search
+
+            max_iterations = 10000;
+            unsigned int neighborhood_size = 4;
+            unsigned int min_colors = 4;
+
+
+            Tabu Tabu_solution(neighborhood_size, graph_main.getNodes(),graph_main.getEdges() ,graph_main.getGraph() );
+            Tabu_solution.MainLoop(max_iterations,total_iterations, min_colors);
+            break;
+        }
         default:
             cout << "Sorry, that input is not correct." << endl;
             wrong_input = true;
@@ -266,12 +278,7 @@ unsigned int n_graph;
 /*
     
 
-    unsigned int n_iterations_tabu = 100000000;
-    unsigned int neighborhood_size = 4;
 
-
-    Tabu Tabu_solution(neighborhood_size, graph_main.getNodes(),graph_main.getEdges() ,graph_main.getGraph() );
-    Tabu_solution.MainLoop(n_iterations_tabu);
 
     clock_gettime(CLOCK_MONOTONIC, &t_after);
     total_time = t_after.tv_nsec - t_before.tv_nsec;

@@ -49,7 +49,7 @@ class Tabu {
 
         /*
         */
-        void MainLoop(unsigned int n_iterations);
+        void MainLoop(unsigned int n_iterations, unsigned int &total_iterations, unsigned int min_colors);
 
         /*  It will return an int with the value of the fitness of the Individual
             This value is calcuflated:

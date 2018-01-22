@@ -85,13 +85,12 @@ void Tabu::NextNeighbor(){
                 local_current = critical_solutions.at(critical_solutions.size()-1);
                 critical_solutions.pop_back();
             }
-            else{
-                cout << "Fin" << endl;
+            /*else{
                 this->best_solution.printChromosome();
                 cout << "FIT: " << this->best_solution.getFitness() << endl;
                 sleep(2);
                 exit(0);             
-            }
+            }*/
                 
             failed_neighborhood = 0;
         }
@@ -151,7 +150,7 @@ void Tabu::NextNeighbor(){
 
 };
 
-void Tabu::MainLoop(unsigned int n_iterations){
+void Tabu::MainLoop(unsigned int n_iterations, unsigned int &total_iterations, unsigned int min_colors){
 
     
     // current_neighbor = find best neighbor
@@ -161,13 +160,19 @@ void Tabu::MainLoop(unsigned int n_iterations){
 
     //If best_neighbor < current_neighbor
     //best = current
-    for (unsigned int i = 0; i < n_iterations; i++){
+    int min_solution_found = 0;
+    bool found = false;
+    for (total_iterations = 0; total_iterations < n_iterations && !found; total_iterations++){
 
         //cout << "IT: " << i << endl;
         //current_solution.printChromosome();
 
         this->CalculateFitness(current_solution);
-        //cout << "FIT: " << current_solution.getFitness() << endl;
+        if(current_solution.getFitness() == min_colors){
+            min_solution_found++;
+            if(min_solution_found == 8)
+                found = true;
+        }
 
         this->NextNeighbor();
 
