@@ -16,6 +16,7 @@ using namespace std;
 
 
 
+
 #include "GA.h"
 #include "SA.h"
 #include "Tabu.h"
@@ -166,7 +167,7 @@ unsigned int n_graph;
     cin >> select_method;
 
 
-    unsigned int total_iterations = 0;
+    unsigned int total_iterations = 0,max_iterations = 100000;
     bool wrong_input = false;
     clock_gettime(CLOCK_MONOTONIC, &t_before);
     
@@ -174,14 +175,61 @@ unsigned int n_graph;
     switch (select_method){
         case 1:{
             //Genetic Algorithm 
-            unsigned int max_iterations = 100000;
-            int n_individuals = 10;
-            double p_best = 40.0, p_cross = 40.0,p_mutation = 20.0;
+
+            int n_individuals = 20;
+            double p_best = 40.0, p_cross = 40.0,p_mutation = 20.0; 
+            int min_colors = 0;        
+
+            if(n_graph == 0){
+                //Recommended for myciel3
+                max_iterations = 1000;
+                n_individuals = 10;
+                p_best = 40.0; p_cross = 40.0; p_mutation = 20.0;
+                min_colors = 4;
+                cout << "bbbbbbbbbbbbbbb" << endl;  
+            }
+            else if(n_graph == 1){
+                //Recommended for myciel4
+                max_iterations = 100000;
+                n_individuals = 20;
+                p_best = 40.0; p_cross = 40.0; p_mutation = 20.0; 
+                min_colors = 5;  
+                cout << "aaaaaaaaa" << endl;            
+            }
+
 
             GA GA_Solution(n_individuals, graph_main.getNodes(), graph_main.getEdges(), graph_main.getGraph());
-            GA_Solution.MainLoop(max_iterations, total_iterations, p_best, p_cross, p_mutation);
+            GA_Solution.MainLoop(max_iterations, total_iterations, p_best, p_cross, p_mutation, min_colors);
             GA_Solution.printPopulation();  
             break;         
+        }
+        case 2:{
+            //Simulated Annealing
+            double initial_temp = 1.0;
+            double min_temp = 0;
+            unsigned int min_colors = 0;
+
+            if(n_graph == 0){
+                //Recommended for myciel3
+                initial_temp = 1.0;
+                min_temp = 0.1;
+                min_colors = 4;
+            }
+            else if(n_graph == 1){
+                //Recommended for myciel4
+                initial_temp = 1.0;
+                min_temp = 0.11;
+                min_colors = 5;
+            }
+
+            SA SA_solution(initial_temp,graph_main.getNodes(),graph_main.getEdges() ,graph_main.getGraph() );
+            SA_solution.MainLoop(max_iterations, min_temp, total_iterations, min_colors);
+
+
+            Individual solution = SA_solution.GetBestState();
+            cout << "Best solution: " << endl;
+            solution.printChromosome();            
+            break;
         }
         default:
             cout << "Sorry, that input is not correct." << endl;
@@ -193,8 +241,8 @@ unsigned int n_graph;
         clock_gettime(CLOCK_MONOTONIC, &t_after);
         total_time = t_after.tv_nsec - t_before.tv_nsec;
 
-        cout << endl <<  "I found the solution in just " << total_time << " nanoseconds." << endl;
-        cout << endl << "and " << total_iterations << " iterations." << endl;
+        cout << BLUE << "\n\nI found the solution in just " << total_time << " nanoseconds." << endl;
+        cout << "and " << total_iterations << " iterations." << END << endl;
     }
     
 
@@ -206,20 +254,7 @@ unsigned int n_graph;
 
 
 
-    int n_iterations_SA = 1000000;
-    double initial_temp = 1.0;
-    double min_temp = 0.11;
-    //double min_temp = 0.1;
 
-    SA SA_solution(initial_temp,graph_main.getNodes(),graph_main.getEdges() ,graph_main.getGraph() );
-    SA_solution.MainLoop(n_iterations_SA, min_temp);
-
-
-
-
-    Individual solution = SA_solution.GetBestState();
-    cout << "Best solution: " << endl;
-    solution.printChromosome();
 
 
     

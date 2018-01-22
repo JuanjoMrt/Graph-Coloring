@@ -106,7 +106,7 @@ class GA{
 
         /*  Main Loop for the Genetic Algorithm system
         */
-        void MainLoop(unsigned int max_iterations, unsigned int &total_iterations,double p_best,double p_cross,double p_mutation);
+        void MainLoop(unsigned int max_iterations, unsigned int &total_iterations,double p_best,double p_cross,double p_mutation, int min_colors);
 
         /*  Test method to mutate all the individuals of a population (just for fun)
         */

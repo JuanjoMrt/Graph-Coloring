@@ -51,7 +51,7 @@ class SA{
             It will reduce the temperature and find
             new neighbors in every iteration
         */
-        void MainLoop(unsigned int n_iterations, double min_temp);
+        void MainLoop(unsigned int n_iterations, double min_temp, unsigned int &total_iterations, unsigned int min_colors);
 
 
         /*  It will return an int with the value of the fitness of the Individual

@@ -116,7 +116,7 @@ void SA::cool(int k){
     }
 };
 
-void SA::MainLoop(unsigned int n_iterations, double min_temp){
+void SA::MainLoop(unsigned int n_iterations, double min_temp, unsigned int &total_iterations,unsigned int min_colors){
     int correct = 0;
     bool correct_color = false;
     for(unsigned int i = 0; i < n_iterations && !correct_color;i++){
@@ -139,16 +139,12 @@ void SA::MainLoop(unsigned int n_iterations, double min_temp){
 
 
 
-        if(current_solution.getNumOfColours() == 5)
+        if(current_solution.getNumOfColours() == min_colors)
             correct++;
         if(correct == 10){
             correct_color = true;
-            cout << endl << endl;
-            cout << "IT: " << i << endl;
+            total_iterations = i;
         }
-            
-        
-
     }
 
 
