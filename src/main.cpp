@@ -160,45 +160,43 @@ unsigned int n_graph;
 //Add a switch to change between different algorithms
 //GA
 
+    cout << "Now, Choose a solving method: \n 1.Genetic Algorithm \n 2.Simulated Annealing \n 3.Tabu search" << endl;
+
+    unsigned int select_method;
+    cin >> select_method;
 
 
-    int n_iterations = 100000;
-    int n_individuals = 20;
-    bool cor_color = false;
-    int iterations_GA = 0;
-
-    vector<vector<unsigned int>> colors_per_individual;
-    colors_per_individual.resize(n_individuals); 
-
-    GA GA_Solution(n_individuals, graph_main.getNodes(), graph_main.getEdges(), graph_main.getGraph());
-
-    //GA_Solution.printPopulation();
-    cout << endl;
-    for(int j= 0; j < n_iterations && !cor_color; j++){
-        //cout << "NEW POPULATION: " << j << endl;
-        //cout << "NEW POPULATION: " << endl;
-        GA_Solution.CreateNewPopulation( 40.0, 40.0, 20.0);
-        if(GA_Solution.CorrectColor(5)){
-            iterations_GA = j;
-            cor_color = true;
-        }
-        //GA_Solution.ColorsPerIndividual(colors_per_individual);
-
-
-
-    }
-        
-    //GA_Solution.printPopulation();
-
-
-    clock_gettime(CLOCK_MONOTONIC, &t_after);
-    total_time = t_after.tv_nsec - t_before.tv_nsec;
+    unsigned int total_iterations = 0;
+    bool wrong_input = false;
+    clock_gettime(CLOCK_MONOTONIC, &t_before);
     
 
-    GA_Solution.printPopulation();
-    cout << endl <<  "GA nsec: " << total_time << endl;
-    cout << endl << "it GA: " << iterations_GA << endl;
+    switch (select_method){
+        case 1:{
+            //Genetic Algorithm 
+            unsigned int max_iterations = 100000;
+            int n_individuals = 10;
+            double p_best = 40.0, p_cross = 40.0,p_mutation = 20.0;
 
+            GA GA_Solution(n_individuals, graph_main.getNodes(), graph_main.getEdges(), graph_main.getGraph());
+            GA_Solution.MainLoop(max_iterations, total_iterations, p_best, p_cross, p_mutation);
+            GA_Solution.printPopulation();  
+            break;         
+        }
+        default:
+            cout << "Sorry, that input is not correct." << endl;
+            wrong_input = true;
+        break;
+    }
+
+    if(!wrong_input){
+        clock_gettime(CLOCK_MONOTONIC, &t_after);
+        total_time = t_after.tv_nsec - t_before.tv_nsec;
+
+        cout << endl <<  "I found the solution in just " << total_time << " nanoseconds." << endl;
+        cout << endl << "and " << total_iterations << " iterations." << endl;
+    }
+    
 
 
 
@@ -231,7 +229,7 @@ unsigned int n_graph;
 
 // Tabu
 /*
-    clock_gettime(CLOCK_MONOTONIC, &t_before);
+    
 
     unsigned int n_iterations_tabu = 100000000;
     unsigned int neighborhood_size = 4;

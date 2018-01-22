@@ -8,10 +8,16 @@ using namespace std;
 
 class GA{
     private:
+        //current population
         vector<Individual> population; 
+        
+        //Number of individuals in the population
         unsigned int n_individuals;
+        //Number of genes in the graph
         unsigned int n_genes;
+        //Number of edges in the graph
         unsigned int n_edges;
+        //The graph being used
         vector<vector<unsigned int>> main_graph;
         
 
@@ -88,16 +94,30 @@ class GA{
         */
         void printPopulation();
 
-        /*
-        */
-        bool CorrectColor(unsigned int n_colors);
+        /*  It will check if the "percentage" of the population has found a
+            solution with "n_colors"
 
+                n_colors: The number of colours that will use as a reference
+                percentage: The percentage of the population that has to found a 
+                    solution with that number of colours
+            return: true if all of that individuals have a solution with that n_colors 
+        */
+        bool CorrectColor(unsigned int n_colors, double percentage);
+
+        /*  Main Loop for the Genetic Algorithm system
+        */
+        void MainLoop(unsigned int max_iterations, unsigned int &total_iterations,double p_best,double p_cross,double p_mutation);
+
+        /*  Test method to mutate all the individuals of a population (just for fun)
+        */
         void mutateAll(){
             for (unsigned int i = 0; i < n_individuals; i++){
                 population[i].mutate();
             }
         }
 
+        /*  It will return a random number between start and finish
+        */
         double getRandom(double start, double finish){
             random_device rd;
             mt19937 mt(rd());
@@ -105,8 +125,8 @@ class GA{
         return dist(mt);
         }
 
-
-
+        /*
+        */
         void ColorsPerIndividual(vector<vector<unsigned int>> &old_colors){
 
             for(unsigned int i = 0; i < n_individuals; i++){

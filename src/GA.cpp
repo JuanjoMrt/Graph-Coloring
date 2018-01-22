@@ -166,17 +166,33 @@
 
     };
 
-    bool GA::CorrectColor(unsigned int n_colors){
+    bool GA::CorrectColor(unsigned int n_colors, double percentage){
         int avg = 0;
         bool finish = false;
+        double per = n_individuals * (percentage/100);
+        cout << "per: " << per << endl;
 
         for(unsigned int i = 0; i < population.size() && !finish; i++){
             if(population[i].getNumOfColours() == n_colors){
                 avg++;
-                if(avg == 16)
+                if(avg == per)
                     finish = true;
             }
         }
 
         return finish;
     };
+
+
+    void GA::MainLoop(unsigned int max_iterations,unsigned int &total_iterations,double p_best,double p_cross,double p_mutation){
+        bool cor_color = false;
+        cout << endl;
+        for(total_iterations = 0; total_iterations < max_iterations && !cor_color; total_iterations++){
+            //cout << "NEW POPULATION in iteration " << j << ":" << endl;
+            this->CreateNewPopulation( 40.0, 40.0, 20.0);
+            if(this->CorrectColor(4,80.0)){
+                cor_color = true;
+            }
+        }
+
+    }
