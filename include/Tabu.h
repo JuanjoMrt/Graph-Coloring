@@ -33,23 +33,28 @@ class Tabu {
 
         Tabu(unsigned int neighborhood_size, unsigned int n_nodes, unsigned int n_edges, vector<vector<unsigned int>> main_graph);
 
-        /*
+        /*  It will find the first collision of a individual
+            if there is no collision it will return a random node of the individual
         */
         int findFirstCollision();
 
         /*  Checks if the move is not in the tabu list
-            p is the position
-            c is the color
+            p: position
+            c: color
         */
         bool checkTabuList(int p, int c);
 
-        /*
+        /*  It will create a new neighborhood and choose the next neighbor based
+            on his fitness and if it is not in the memory
         */
         void NextNeighbor();
 
-        /*
+        /*  Main Loop for Tabu search
+                max_iterations: maximum number of iteration before the program stops
+                total_iteration: the real total iteration that the program made
+                min_colors: minimum amount of colors needed to solve the problem (if unknown "min_colors = 0" )
         */
-        void MainLoop(unsigned int n_iterations, unsigned int &total_iterations, unsigned int min_colors);
+        void MainLoop(unsigned int max_iterations, unsigned int &total_iterations, unsigned int min_colors);
 
         /*  It will return an int with the value of the fitness of the Individual
             This value is calcuflated:

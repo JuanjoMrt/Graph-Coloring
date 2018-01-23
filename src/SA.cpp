@@ -116,10 +116,10 @@ void SA::cool(int k){
     }
 };
 
-void SA::MainLoop(unsigned int n_iterations, double min_temp, unsigned int &total_iterations,unsigned int min_colors){
+void SA::MainLoop(unsigned int max_iterations, double min_temp, unsigned int &total_iterations,unsigned int min_colors){
     int correct = 0;
     bool correct_color = false;
-    for(unsigned int i = 0; i < n_iterations && !correct_color;i++){
+    for(unsigned int i = 0; i < max_iterations && !correct_color;i++){
         //cout << "\n\nIt number: " << i << endl;
         //current_solution.printChromosome();
         //cout << "FIT: " << current_solution.getFitness() << endl;

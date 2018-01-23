@@ -150,7 +150,7 @@ void Tabu::NextNeighbor(){
 
 };
 
-void Tabu::MainLoop(unsigned int n_iterations, unsigned int &total_iterations, unsigned int min_colors){
+void Tabu::MainLoop(unsigned int max_iterations, unsigned int &total_iterations, unsigned int min_colors){
 
     
     // current_neighbor = find best neighbor
@@ -162,7 +162,7 @@ void Tabu::MainLoop(unsigned int n_iterations, unsigned int &total_iterations, u
     //best = current
     int min_solution_found = 0;
     bool found = false;
-    for (total_iterations = 0; total_iterations < n_iterations && !found; total_iterations++){
+    for (total_iterations = 0; total_iterations < max_iterations && !found; total_iterations++){
 
         //cout << "IT: " << i << endl;
         //current_solution.printChromosome();

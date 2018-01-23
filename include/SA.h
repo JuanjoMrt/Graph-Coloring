@@ -50,8 +50,12 @@ class SA{
         /*  Main loop where the algorithm is used,
             It will reduce the temperature and find
             new neighbors in every iteration
+                max_iterations: maximum number of iteration before the program stops
+                min_temp: if the minimum temperature is reach the program will stops
+                total_iteration: the real total iteration that the program made
+                min_colors: minimum amount of colors needed to solve the problem (if unknown "min_colors = 0" )
         */
-        void MainLoop(unsigned int n_iterations, double min_temp, unsigned int &total_iterations, unsigned int min_colors);
+        void MainLoop(unsigned int max_iterations, double min_temp, unsigned int &total_iterations, unsigned int min_colors);
 
 
         /*  It will return an int with the value of the fitness of the Individual

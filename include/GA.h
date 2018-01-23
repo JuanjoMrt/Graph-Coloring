@@ -105,6 +105,12 @@ class GA{
         bool CorrectColor(unsigned int n_colors, double percentage);
 
         /*  Main Loop for the Genetic Algorithm system
+                max_iterations: maximum number of iteration before the program stops
+                total_iteration: the real total iteration that the program made
+                p_best: Percentage of the best individuals that will be used to create a new population
+                p_cross: percentage of the new individuals that will be created reproducing other individuals
+                p_mutation: Percentage of the new individuals that will be created with mutations
+                min_colors: minimum amount of colors needed to solve the problem (if unknown "min_colors = 0" )
         */
         void MainLoop(unsigned int max_iterations, unsigned int &total_iterations,double p_best,double p_cross,double p_mutation, int min_colors);
 
@@ -125,7 +131,7 @@ class GA{
         return dist(mt);
         }
 
-        /*
+        /*  It will add the number of colors being used in each individual in the population
         */
         void ColorsPerIndividual(vector<vector<unsigned int>> &old_colors){
 

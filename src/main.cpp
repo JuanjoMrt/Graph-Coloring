@@ -235,8 +235,14 @@ unsigned int n_graph;
             //Tabu Search
 
             max_iterations = 10000;
-            unsigned int neighborhood_size = 4;
-            unsigned int min_colors = 4;
+            unsigned int neighborhood_size = 5;
+            unsigned int min_colors = 0;
+            
+            if(n_graph == 0){
+                //Recommended for myciel3
+                neighborhood_size = 4;
+                min_colors = 4;   
+            }
 
 
             Tabu Tabu_solution(neighborhood_size, graph_main.getNodes(),graph_main.getEdges() ,graph_main.getGraph() );
@@ -257,34 +263,5 @@ unsigned int n_graph;
         cout << "and " << total_iterations << " iterations." << END << endl;
     }
     
-
-
-
-
-//SA
-/*
-
-
-
-
-
-
-    
-
-*/
-
-
-// Tabu
-/*
-    
-
-
-
-    clock_gettime(CLOCK_MONOTONIC, &t_after);
-    total_time = t_after.tv_nsec - t_before.tv_nsec;
-
-    cout << endl <<  "GA nsec: " << total_time << endl;
-
-*/
 }
 
