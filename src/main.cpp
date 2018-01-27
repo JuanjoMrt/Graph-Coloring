@@ -167,7 +167,10 @@ unsigned int n_graph;
     cin >> select_method;
 
 
+	
     unsigned int total_iterations = 0,max_iterations = 100000;
+
+
     bool wrong_input = false;
     clock_gettime(CLOCK_MONOTONIC, &t_before);
     
@@ -176,9 +179,13 @@ unsigned int n_graph;
         case 1:{
             //Genetic Algorithm 
 
+
+			//Values for the Genetic Algorithm
+			max_iterations = 100000; 
             int n_individuals = 20;
             double p_best = 40.0, p_cross = 40.0,p_mutation = 20.0; 
-            int min_colors = 0;        
+            int min_colors = 0;
+   
 
             if(n_graph == 0){
                 //Recommended for myciel3
@@ -205,6 +212,9 @@ unsigned int n_graph;
         }
         case 2:{
             //Simulated Annealing
+
+			//Values for the Simulated Annealing Algorithm
+			max_iterations = 100000; 			
             double initial_temp = 1.0;
             double min_temp = 0;
             unsigned int min_colors = 0;
@@ -234,6 +244,7 @@ unsigned int n_graph;
         case 3:{
             //Tabu Search
 
+			//Values for the Tabu Search Algorithm 
             max_iterations = 10000;
             unsigned int neighborhood_size = 5;
             unsigned int min_colors = 0;
