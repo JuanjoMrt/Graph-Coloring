@@ -34,7 +34,7 @@ Also it will be displayed the time in nanoseconds that the algorithm takes and t
 
 ## Modifications
 In the main function you will find a switch to select the method you will like to try.
-You can change wherever you want the parameters that are below the `Values for the .... ALgorithm` in order to see new results or try different tests. By default the graph myciel3 and myciel4 are adjusted automatically to find the best solution.
+Feel free to change as you want the parameters that are below the `Values for the .... ALgorithm` in order to see new results or try different tests. By default the graph myciel3 and myciel4 are adjusted automatically to find the best solution.
 ```cpp
     //Genetic Algorithm 
     
