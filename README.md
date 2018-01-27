@@ -45,6 +45,6 @@ You can change wherever you want the parameters that are below the `Values for t
     int min_colors = 0;
 ```
 
-##License
+## License
 [MIT](https://github.com/JuanjoMrt/Graph-Coloring/blob/master/LICENSE)
 
